@@ -102,48 +102,35 @@ def getWishById():
         return render_template('error.html',error = str(e))
 
 @app.route('/getWish',methods=['POST'])
-def getWish(): #document.getElementById("txtSearch").value.tostring()
-    #try:
+def getWish():
+    try:
         if session.get('user'):
             _user = session.get('user')
             _limit = pageLimit
             _offset = request.form['offset']
-            #_searchKey = request.form['searchKey']
+            _searchword = request.form['searchData']
+            _searchstyle = request.form['titleChecked']
             _total_records = 0
-
-            #console.log(_user);
-            #print (request.form['searchKey'])
-            #print(request.form['data'])
             
             con = mysql.connect()
             cursor = con.cursor()
-            #_searchword2 = request.form['searchKey']
+
             print (request.args.get('key'))
-            #if not _searchword:
-            _searchword = request.args.get('key', '')
-            _searchstyle = request.args.get('s', 'true')
-            print (_searchstyle);
+            if not _searchword:
+                _searchword = ''
+            if not _searchstyle:
+                _searchstyle = ''
         
-            #console.log(_limit);
             cursor.callproc('sp_Get2ItemByUser',(_user,_limit,_offset,_searchword,_searchstyle,'true',_total_records))
-            #console.log(_offset);
+ 
             wishes = cursor.fetchall()
              
             cursor.close()
-            #console.log(_total_records);
              
             cursor = con.cursor()
             cursor.execute('SELECT @_sp_Get2ItemByUser_6');
              
             outParam = cursor.fetchall()
-
-            
-            
-            
-            
-            #console.log(outParam);
-
-            
 
             response = []
             wishes_dict = []
@@ -156,16 +143,12 @@ def getWish(): #document.getElementById("txtSearch").value.tostring()
                 wishes_dict.append(wish_dict)
             response.append(wishes_dict)
             response.append({'total':outParam[0][0]}) 
-                
-
-
-
 
             return json.dumps(response)
-        #else:
+        else:
             return render_template('error.html', error = 'Unauthorized Access')
-    #except Exception as e:
-        #return render_template('error.html', error = str(e))
+    except Exception as e:
+        return render_template('error.html', error = str(e))
 
 @app.route('/addWish',methods=['POST'])
 def addWish():

@@ -46,14 +46,14 @@
 	function GetWishes(_page){
 		
 		var _offset = (_page - 1) * 2;
+		var _searchData = document.getElementById("txtSearch").value;
+		var _titleChecked = document.getElementById("radioTitle").checked;
+		
 		$.ajax({
-			url : '/getWish?key='+document.getElementById("txtSearch").value+"&s="+document.getElementById("radioTitle").checked,
+			url : '/getWish',
 			type : 'POST',
-			data : {offset:_offset},
+			data : {offset:_offset, searchData:_searchData, titleChecked:_titleChecked},
 			success: function(res){
-				
-
-
 				
 				var itemsPerPage = 2;
 				
@@ -74,9 +74,6 @@
 
  				var pageStart = $('#hdnStart').val();
 				var pageEnd = $('#hdnEnd').val();
-
-				
-				
 
 				if(pageStart>5){
 					var aPrev = $('<a/>').attr({'href':'#'},{'aria-label':'Previous'})
