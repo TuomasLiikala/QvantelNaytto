@@ -213,6 +213,22 @@
 
 		</fieldset>
 	</form>
+	
+	<div class="row row-eq-height">
+		<div class="col-xs-12">
+			<label>
+				Sort by:
+			</label>
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-primary active">
+					<input type="radio" id="radioTitle" name="optradio" checked=""> Title
+				</label>
+				<label class="btn btn-primary">
+					<input type="radio" id="radioPrice" name="optradio"> Price
+				</label>
+			</div>
+		</div>
+	</div>
 	  
 	<!-- Text input-->
 	<div class="row row-eq-height">
@@ -220,14 +236,7 @@
 		<input id="txtSearch" type="text" placeholder="What on your mind?" class="form-control input-md" onkeyup="GetWishes(1)">
 	  </div>
 	</div>
-
-	<!-- Textarea -->
-	<div class="form-group">
-		<div class="col-md-12">   
-			<label class="radio-inline" id="txtPost" name="inputDescription"><input type="radio" id="radioTitle" name="optradio" checked="">Title</label>
-			<label class="radio-inline" id="txtPost2" name="inputDescription"><input type="radio" name="optradio">Price</label>  
-		</div>
-	</div>
+	
 	<div class="panel-body">
 		<div class="row row-eq-height">
 			<div class="col-xs-4 panel" style="text-align:left;">
