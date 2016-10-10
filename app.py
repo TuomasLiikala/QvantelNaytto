@@ -139,6 +139,8 @@ def getWish():
                         'Id': wish[0],
                         'Title': wish[1],
                         'Description': wish[2],
+                        'Price' : '100',
+                        'Count':'10',
                         'Date': wish[4]}
                 wishes_dict.append(wish_dict)
             response.append(wishes_dict)

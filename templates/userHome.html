@@ -2,9 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Python Flask Bucket List App</title>
+    <title>Qvantel App</title>
 
-  
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
@@ -197,82 +196,90 @@
    
   </head>
 
-  <body>
+<body>
+<div class="container">
+    <div class="header">
+		<nav>
+			<ul class="nav nav-pills pull-right">
+				<li role="presentation"><a href="/showAddWish">Add new product</a></li>
+				<li role="presentation" class="active"><a href="/logout">Logout</a></li>
+			</ul>
+		</nav>
+	<h3 class="text-muted">Python Flask App</h3>
+	</div>
 
-    <div class="container">
-      <div class="header">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-		    <li role="presentation"><a href="/showSearchProduct">Search</a></li>
-	        <li role="presentation"><a href="/showAddWish">Add Wish</a></li>
-            <li role="presentation" class="active"><a href="/logout">Logout</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">Python Flask App</h3>
-      </div>
+	<form class="form-horizontal" method="post" action="/addWish">
+		<fieldset>
 
-	  <form class="form-horizontal" method="post" action="/addWish">
+		</fieldset>
+	</form>
 	  
-<fieldset>
+	<!-- Text input-->
+	<div class="row row-eq-height">
+	  <div class="col-xs-12">
+		<input id="txtSearch" type="text" placeholder="What on your mind?" class="form-control input-md" onkeyup="GetWishes(1)">
+	  </div>
+	</div>
 
-</fieldset>
-</form>
-	  
-<!-- Text input-->
-<div class="form-group">
-  <div class="col-md-10">
-    <input id="txtSearch" type="text" placeholder="What on your mind?" class="form-control input-md">
-  </div>
-    <div class="col-md-2">
-    <input id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit" value="Search" onclick="GetWishes(1)"/>
-  </div>
-</div>
-
-<!-- Textarea -->
-<div class="form-group">
-  <div class="col-md-12">   
-    <label class="radio-inline" id="txtPost" name="inputDescription"><input type="radio" id="radioTitle" name="optradio" checked="">Title</label>
-    <label class="radio-inline" id="txtPost2" name="inputDescription"><input type="radio" name="optradio">Price</label>  
-  </div>
-</div>
-     
-        <script id="listTemplate" type="text/x-jQuery-tmpl">
-       <li class="list-group-item">
-                            <div class="checkbox">
-                                <label>
-                                    ${Title}
-                                </label>
-                            </div>
-                            <div class="pull-right action-buttons">
-                                <a data-id=${Id} onclick="Edit(this)" ><span class="glyphicon glyphicon-pencil"></span></a>
-                               <a data-id=${Id} onclick="ConfirmDelete(this)" ><span class="glyphicon glyphicon-trash"></span></a>
-                            </div>
-                        </li>
-    </script>
-
-    
-	
-
-    <div class="row">
-        <div class="col-md-12">
-            
-                <div class="panel-body">
-
-                    <ul id="ulist" class="list-group">
-                        
- 
-                        
+	<!-- Textarea -->
+	<div class="form-group">
+		<div class="col-md-12">   
+			<label class="radio-inline" id="txtPost" name="inputDescription"><input type="radio" id="radioTitle" name="optradio" checked="">Title</label>
+			<label class="radio-inline" id="txtPost2" name="inputDescription"><input type="radio" name="optradio">Price</label>  
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="row row-eq-height">
+			<div class="col-xs-4 panel" style="text-align:left;">
+				<label>Title
+				</label>
+			</div>
+			<div class="col-xs-3 panel" style="text-align:center;">
+				<label>Price (€)
+				</label>
+			</div>
+			<div class="col-xs-3 panel" style="text-align:right;">
+				<label>Items (count)
+				</label>
+			</div>
+		</div>
+		<script id="listTemplate" type="text/x-jQuery-tmpl">
+			<div class="row row-eq-height">
+				<div class="col-xs-4 panel" style="text-align:left;">
+					<label>
+						${Title}
+					</label>
+				</div>
+				<div class="col-xs-3 panel" style="text-align:center;">
+					<label>
+						${Price}
+					</label>
+				</div>
+				<div class="col-xs-3 panel" style="text-align:right;">
+					<label>
+						${Count}
+					</label>
+				</div>
+				<div class="action-buttons">
+					<a data-id=${Id} onclick="Edit(this)" ><span class="glyphicon glyphicon-pencil"></span></a>
+					<a data-id=${Id} onclick="ConfirmDelete(this)" ><span class="glyphicon glyphicon-trash"></span></a>
+				</div>
+			</div>
+		</script>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel-body">
+                    <ul id="ulist" class="list-group">     
                     </ul>
-		    <nav>
-  <ul class="pagination">
-    
-  </ul>
-</nav>
-                </div>
-                
+				<nav>
+					<ul class="pagination"> 
+					</ul>
+				</nav>
             </div>
         </div>
     </div>
+</div>
 
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -302,10 +309,6 @@
   </div>
 </div>
 
-
-
-
-
        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -326,12 +329,9 @@
       
 
       <footer class="footer">
-        <p>&copy; Company 2015</p>
+        <p>&copy; Tuomas Liikala 2016</p>
       </footer>
-
     </div>
-
-
   </body>
 </html>
 
