@@ -25,13 +25,9 @@ def main():
 def showSignUp():
     return render_template('signup.html')
 
-@app.route('/showAddWish')
-def showAddWish():
-    return render_template('addWish.html')
-
-@app.route('/showSearchProduct')
-def showSearchProduct():
-    return render_template('searchProduct.html')
+@app.route('/showAddProduct')
+def showAddProduct():
+    return render_template('addProduct.html')
 
 @app.route('/showSignin')
 def showSignin():
@@ -53,8 +49,8 @@ def logout():
     session.pop('user',None)
     return redirect('/')
 
-@app.route('/deleteWish',methods=['POST'])
-def deleteWish():
+@app.route('/deleteProduct',methods=['POST'])
+def deleteProduct():
     try:
         if session.get('user'):
             _id = request.form['id']
@@ -79,8 +75,8 @@ def deleteWish():
         conn.close()
 
 
-@app.route('/getWishById',methods=['POST'])
-def getWishById():
+@app.route('/getProductById',methods=['POST'])
+def getProductById():
     try:
         if session.get('user'):
             
@@ -92,16 +88,16 @@ def getWishById():
             cursor.callproc('sp_GetWishById',(_id,_user))
             result = cursor.fetchall()
 
-            wish = []
-            wish.append({'Id':result[0][0],'Title':result[0][1],'Description':result[0][2]})
+            product = []
+            product.append({'Id':result[0][0],'Name':result[0][1],'Description':result[0][2]})
 
-            return json.dumps(wish)
+            return json.dumps(product)
         else:
             return render_template('error.html', error = 'Unauthorized Access')
     except Exception as e:
         return render_template('error.html',error = str(e))
 
-@app.route('/getWish',methods=['POST'])
+@app.route('/getProduct',methods=['POST'])
 def getWish():
     try:
         if session.get('user'):
@@ -123,7 +119,7 @@ def getWish():
         
             cursor.callproc('sp_Get2ItemByUser',(_user,_limit,_offset,_searchword,_searchstyle,'true',_total_records))
  
-            wishes = cursor.fetchall()
+            products = cursor.fetchall()
              
             cursor.close()
              
@@ -133,17 +129,17 @@ def getWish():
             outParam = cursor.fetchall()
 
             response = []
-            wishes_dict = []
-            for wish in wishes:
-                wish_dict = {
-                        'Id': wish[0],
-                        'Title': wish[1],
-                        'Description': wish[2],
+            products_dict = []
+            for product in products:
+                product_dict = {
+                        'Id': product[0],
+                        'Title': product[1],
+                        'Description': product[2],
                         'Price' : '100',
                         'Count':'10',
-                        'Date': wish[4]}
-                wishes_dict.append(wish_dict)
-            response.append(wishes_dict)
+                        'Date': product[4]}
+                products_dict.append(product_dict)
+            response.append(products_dict)
             response.append({'total':outParam[0][0]}) 
 
             return json.dumps(response)
@@ -152,17 +148,19 @@ def getWish():
     except Exception as e:
         return render_template('error.html', error = str(e))
 
-@app.route('/addWish',methods=['POST'])
+@app.route('/addProduct',methods=['POST'])
 def addWish():
     try:
         if session.get('user'):
-            _title = request.form['inputTitle']
+            _name = request.form['inputName']
             _description = request.form['inputDescription']
+            _price = request.form['inputPrice']
+            _count = request.form['inputCount']
             _user = session.get('user')
 
             conn = mysql.connect()
             cursor = conn.cursor()
-            cursor.callproc('sp_addWish',(_title,_description,_user))
+            cursor.callproc('sp_addWish',(_name,_description,_user))
             data = cursor.fetchall()
 
             if len(data) is 0:
@@ -179,7 +177,7 @@ def addWish():
         cursor.close()
         conn.close()
 
-@app.route('/updateWish', methods=['POST'])
+@app.route('/updateProduct', methods=['POST'])
 def updateWish():
     try:
         if session.get('user'):
@@ -187,8 +185,6 @@ def updateWish():
             _title = request.form['title']
             _description = request.form['description']
             _wish_id = request.form['id']
-
-            
 
             conn = mysql.connect()
             cursor = conn.cursor()

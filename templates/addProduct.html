@@ -20,33 +20,48 @@
       <div class="header">
         <nav>
           <ul class="nav nav-pills pull-right">
-		    <li role="presentation"><a href="/showSearchProduct">Search</a></li>
-	        <li role="presentation" class="active"><a href="#">Add Item</a></li>
+	        <li role="presentation" class="active"><a href="#">Add a new Product</a></li>
             <li role="presentation" ><a href="/logout">Logout</a></li>
           </ul>
         </nav>
         <h3 class="text-muted">Python Flask App</h3>
       </div>
      <section>
-      <form class="form-horizontal" method="post" action="/addWish">
+      <form class="form-horizontal" method="post" action="/addProduct">
 <fieldset>
 
 <!-- Form Name -->
-<legend>Create Your Wish</legend>
+<legend>Add a new product</legend>
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="txtTitle">Title</label>  
+  <label class="col-md-4 control-label" for="txtName">Name</label>  
   <div class="col-md-4">
-  <input id="txtTitle" name="inputTitle" type="text" placeholder="placeholder" class="form-control input-md">
+  <input id="txtName" name="inputName" type="text" placeholder="placeholder" class="form-control input-md">
   </div>
 </div>
 
 <!-- Textarea -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="txtPost">Post</label>
+  <label class="col-md-4 control-label" for="txtPost">Description</label>
   <div class="col-md-4">                     
     <textarea class="form-control" id="txtPost" name="inputDescription" ></textarea>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="txtPrice">Price</label>  
+  <div class="col-md-4">
+  <input id="txtPrice" name="inputPrice" type="text" placeholder="placeholder" class="form-control input-md">
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="txtCount">Count</label>  
+  <div class="col-md-4">
+  <input id="txtCount" name="inputCount" type="text" placeholder="placeholder" class="form-control input-md">
   </div>
 </div>
 
@@ -63,7 +78,7 @@
       
 </section>
       <footer class="footer">
-        <p>&copy; Company 2015</p>
+        <p>&copy; Tuomas Liikala</p>
       </footer>
 
     </div>
