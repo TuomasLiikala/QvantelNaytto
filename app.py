@@ -104,27 +104,28 @@ def getProduct():
             _offset = request.form['offset']
             _searchword = request.form['searchData']
             _searchstyle = request.form['nameChecked']
-            #_price = request.form['price']
-            #_count = request.form['count']
             _total_records = 0
-            
+            _searcby = 'wish_title'
+
             con = mysql.connect()
             cursor = con.cursor()
 
-            print (request.args.get('key'))
             if not _searchword:
                 _searchword = ''
-            if not _searchstyle:
-                _searchstyle = ''
+            if _searchstyle == 'true':
+                _searchby = 'wish_title'
+            else:
+                _searchby = 'wish_price'
+            print (_searchby)
         
-            cursor.callproc('sp_Get2ItemByUser',(_user,_limit,_offset,_searchword,_searchstyle,'true',_total_records))
+            cursor.callproc('sp_GetProductByUser',(_user,_limit,_offset,_searchword,_searchby,'true',_total_records))
  
             products = cursor.fetchall()
              
             cursor.close()
              
             cursor = con.cursor()
-            cursor.execute('SELECT @_sp_Get2ItemByUser_6');
+            cursor.execute('SELECT @_sp_GetProductByUser_6');
              
             outParam = cursor.fetchall()
 
