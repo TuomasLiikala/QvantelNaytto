@@ -16,7 +16,6 @@ mysql.init_app(app)
 # Default setting
 pageLimit = 2
 
-
 @app.route('/')
 def main():
     return render_template('index.html')
@@ -42,7 +41,6 @@ def userHome():
         return render_template('userHome.html')
     else:
         return render_template('error.html',error = 'Unauthorized Access')
-
 
 @app.route('/logout')
 def logout():
@@ -85,11 +83,11 @@ def getProductById():
     
             conn = mysql.connect()
             cursor = conn.cursor()
-            cursor.callproc('sp_GetWishById',(_id,_user))
+            cursor.callproc('sp_GetProductById',(_id,_user))
             result = cursor.fetchall()
 
             product = []
-            product.append({'Id':result[0][0],'Name':result[0][1],'Description':result[0][2]})
+            product.append({'Id':result[0][0],'Name':result[0][1],'Description':result[0][2],'Price':result[0][5],'Count':result[0][6]})
 
             return json.dumps(product)
         else:
@@ -98,14 +96,16 @@ def getProductById():
         return render_template('error.html',error = str(e))
 
 @app.route('/getProduct',methods=['POST'])
-def getWish():
+def getProduct():
     try:
         if session.get('user'):
             _user = session.get('user')
             _limit = pageLimit
             _offset = request.form['offset']
             _searchword = request.form['searchData']
-            _searchstyle = request.form['titleChecked']
+            _searchstyle = request.form['nameChecked']
+            #_price = request.form['price']
+            #_count = request.form['count']
             _total_records = 0
             
             con = mysql.connect()
@@ -133,10 +133,10 @@ def getWish():
             for product in products:
                 product_dict = {
                         'Id': product[0],
-                        'Title': product[1],
+                        'Name': product[1],
                         'Description': product[2],
-                        'Price' : '100',
-                        'Count':'10',
+                        'Price' : product[5],
+                        'Count':product[6],
                         'Date': product[4]}
                 products_dict.append(product_dict)
             response.append(products_dict)
@@ -149,7 +149,7 @@ def getWish():
         return render_template('error.html', error = str(e))
 
 @app.route('/addProduct',methods=['POST'])
-def addWish():
+def addProduct():
     try:
         if session.get('user'):
             _name = request.form['inputName']
@@ -160,7 +160,7 @@ def addWish():
 
             conn = mysql.connect()
             cursor = conn.cursor()
-            cursor.callproc('sp_addWish',(_name,_description,_user))
+            cursor.callproc('sp_addProduct',(_name,_description,_user,_price,_count))
             data = cursor.fetchall()
 
             if len(data) is 0:
@@ -178,17 +178,19 @@ def addWish():
         conn.close()
 
 @app.route('/updateProduct', methods=['POST'])
-def updateWish():
+def updateProduct():
     try:
         if session.get('user'):
             _user = session.get('user')
-            _title = request.form['title']
+            _name = request.form['name']
+            _price = request.form['price']
+            _count = request.form['count']
             _description = request.form['description']
-            _wish_id = request.form['id']
+            _product_id = request.form['id']
 
             conn = mysql.connect()
             cursor = conn.cursor()
-            cursor.callproc('sp_updateWish',(_title,_description,_wish_id,_user))
+            cursor.callproc('sp_updateProduct',(_name,_description,_product_id,_user,_price,_count))
             data = cursor.fetchall()
 
             if len(data) is 0:
@@ -202,24 +204,17 @@ def updateWish():
         cursor.close()
         conn.close()
 
-
 @app.route('/validateLogin',methods=['POST'])
 def validateLogin():
     try:
         _username = request.form['inputEmail']
         _password = request.form['inputPassword']
-        
 
-        
         # connect to mysql
-
         con = mysql.connect()
         cursor = con.cursor()
         cursor.callproc('sp_validateLogin',(_username,))
         data = cursor.fetchall()
-
-        
-
 
         if len(data) > 0:
             if check_password_hash(str(data[0][3]),_password):
@@ -230,13 +225,11 @@ def validateLogin():
         else:
             return render_template('error.html',error = 'Wrong Email address or Password.')
             
-
     except Exception as e:
         return render_template('error.html',error = str(e))
     finally:
         cursor.close()
         con.close()
-
 
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
@@ -249,8 +242,7 @@ def signUp():
         # validate the received values
         if _name and _email and _password:
             
-            # All Good, let's call MySQL
-            
+            # All Good, let's call MySQL       
             conn = mysql.connect()
             cursor = conn.cursor()
             _hashed_password = generate_password_hash(_password)
