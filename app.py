@@ -13,9 +13,6 @@ app.config['MYSQL_DATABASE_DB'] = 'qvantel'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
-# Default setting
-pageLimit = 10
-
 @app.route('/')
 def main():
     return render_template('index.html')
@@ -54,6 +51,7 @@ def deleteProduct():
             _id = request.form['id']
             _user = session.get('user')
 
+            # connect to mysql
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.callproc('sp_deleteProduct',(_id,_user))
@@ -72,7 +70,6 @@ def deleteProduct():
         cursor.close()
         conn.close()
 
-
 @app.route('/getProductById',methods=['POST'])
 def getProductById():
     try:
@@ -81,6 +78,7 @@ def getProductById():
             _id = request.form['id']
             _user = session.get('user')
     
+            # connect to mysql
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.callproc('sp_GetProductById',(_id,_user))
@@ -95,33 +93,33 @@ def getProductById():
     except Exception as e:
         return render_template('error.html',error = str(e))
 
+# for listing porducts
 @app.route('/getProduct',methods=['POST'])
 def getProduct():
     try:
         if session.get('user'):
             _user = session.get('user')
-            _limit = pageLimit
+            _limit = request.form['itemsPerPage']
             _offset = request.form['offset']
             _searchword = request.form['searchData']
-            _searchstyle = request.form['nameChecked']
+            _searchstyle = request.form['nameChecked'] #Search by product_title (true) or product_price (false)
             _total_records = 0
             _searcby = 'product_title'
 
+            # connect to mysql
             con = mysql.connect()
             cursor = con.cursor()
 
+            # Sort by title or price of the product
             if not _searchword:
                 _searchword = ''
             if _searchstyle == 'true':
                 _searchby = 'product_title'
             else:
                 _searchby = 'product_price'
-            print (_searchby)
         
             cursor.callproc('sp_Get2ProductByUser',(_user,_limit,_offset,_searchword,_searchby,'true',_total_records))
- 
-            products = cursor.fetchall()
-             
+            products = cursor.fetchall()     
             cursor.close()
              
             cursor = con.cursor()
@@ -159,6 +157,7 @@ def addProduct():
             _count = request.form['inputCount']
             _user = session.get('user')
 
+            # connect to mysql
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.callproc('sp_addProduct',(_name,_description,_user,_price,_count))
@@ -189,6 +188,7 @@ def updateProduct():
             _description = request.form['description']
             _product_id = request.form['id']
 
+            # connect to mysql
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.callproc('sp_updateProduct',(_name,_description,_product_id,_user,_price,_count))

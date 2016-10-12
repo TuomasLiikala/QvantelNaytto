@@ -40,26 +40,25 @@
 
 			function GetProducts(_page){
 				
-				var _offset = (_page - 1) * 10;
+				var _itemsPerPage = 25;
+				var _offset = (_page - 1) * _itemsPerPage;
 				var _searchData = document.getElementById("txtSearch").value;
 				var _nameChecked = document.getElementById("radioName").checked;
 				
 				$.ajax({
 					url : '/getProduct',
 					type : 'POST',
-					data : {offset:_offset, searchData:_searchData, nameChecked:_nameChecked},
+					data : {offset:_offset, searchData:_searchData, nameChecked:_nameChecked, itemsPerPage:_itemsPerPage},
 					success: function(res){
-						
-						var itemsPerPage = 10;
-						
+							
 						var productObj = JSON.parse(res);
 						
 						$('#ulist').empty();
 						$('#listTemplate').tmpl(productObj[0]).appendTo('#ulist');
 
 						var total = productObj[1]['total'];
-						var pageCount = total/itemsPerPage;
-						var pageRem = total%itemsPerPage;
+						var pageCount = total/_itemsPerPage;
+						var pageRem = total%_itemsPerPage;
 						if(pageRem !=0 ){
 							pageCount = Math.floor(pageCount)+1;
 						}
@@ -120,6 +119,7 @@
 						console.log(error);
 					}
 				});
+				
 			}
 
 			function ConfirmDelete(elem){
@@ -203,23 +203,17 @@
 			</div>
 			
 			<div class="panel-body">
-				<div class="row row-eq-height" data-toggle="buttons">
+			<form>
 					<div class="col-xs-4 panel" style="text-align:left;">
-						<label class="btn btn-link active" onclick="GetProducts(1)">
-							<input type="radio" id="radioName" name="optradio" checked=""> Name
-						</label>
+							<input type="radio" id="radioName" name="optradio" value='0' checked="checked" onchange="GetProducts(1)"> Name
 					</div>
 					<div class="col-xs-3 panel" style="text-align:left;">
-						<label class="btn btn-link active" onclick="GetProducts(1)">
-							<input type="radio" id="radioPrice" name="optradio"> Price (€)
-						</label>
+							<input type="radio" id="radioName" value='1' name="optradio" onchange="GetProducts(1)"> Price (€)
 					</div>
 					<div class="col-xs-3 panel" style="text-align:left;">
-						<label class="btn btn-link disabled">
-							<input type="radio" id="radioCount" name="optradio" active=""> Items (count)
-						</label>
+							<input type="radio" id="radioCount" value='2' disabled="true" name="optradio"> Items (count)
 					</div>
-				</div>
+				<form>
 				<script id="listTemplate" type="text/x-jQuery-tmpl">
 					<div class="row row-eq-height">
 						<div class="col-xs-4 panel" style="text-align:left;">
