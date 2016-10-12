@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `bucketlist` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `bucketlist`;
+CREATE DATABASE  IF NOT EXISTS `qvantel` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `qvantel`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: bucketlist
+-- Host: localhost    Database: qvantel
 -- ------------------------------------------------------
 -- Server version	5.7.15-log
 
@@ -76,11 +76,11 @@ INSERT INTO `tbl_user` VALUES (1,'root','tuomas.liikala@tuppu.fi','pbkdf2:sha1:1
 UNLOCK TABLES;
 
 --
--- Dumping events for database 'bucketlist'
+-- Dumping events for database 'qvantel'
 --
 
 --
--- Dumping routines for database 'bucketlist'
+-- Dumping routines for database 'qvantel'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `sp_addProduct` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
