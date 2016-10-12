@@ -42,7 +42,7 @@ CREATE TABLE `tbl_product` (
 
 LOCK TABLES `tbl_product` WRITE;
 /*!40000 ALTER TABLE `tbl_product` DISABLE KEYS */;
-INSERT INTO `tbl_product` VALUES (3,'ff','sd',1,'2016-10-08 17:08:56',0,0),(4,'toka','rrr',1,'2016-10-08 17:09:27',0,0),(5,'ll','fg',1,'2016-10-08 17:10:56',0,0),(6,'jj','jhg',1,'2016-10-08 17:16:49',0,0),(7,'oojj','oop',1,'2016-10-08 17:19:20',0,0),(8,'kolmas','dd',1,'2016-10-08 17:24:13',0,0),(9,'a','sfa',1,'2016-10-08 17:24:36',0,0),(10,'ööö2','kj',1,'2016-10-08 17:24:48',0,0),(11,'uusi','viesti',1,'2016-10-08 17:53:40',0,0),(12,'fdfs','fffdfd',1,'2016-10-08 22:22:19',0,0),(13,'fsfdf','sdfsdfd',1,'2016-10-08 22:22:24',0,0),(14,'fsdf','fsdfsfs',1,'2016-10-08 22:22:41',0,0),(15,'fdgfd','dfgdggf',1,'2016-10-08 22:22:46',0,0),(16,'cc','zc',1,'2016-10-09 13:15:44',0,0),(17,'hh','jhhg',1,'2016-10-09 13:39:44',0,0),(18,'hgjjgh','xfgxx',1,'2016-10-09 13:39:53',0,0),(19,'dd','xvx',1,'2016-10-09 14:03:54',0,0),(20,'asdas','dfsdfs',1,'2016-10-09 16:00:24',0,0),(21,'dsf','sfdfsdfsd',1,'2016-10-09 16:40:26',0,0),(22,'sfdaf','fdfadsfsd',7,'2016-10-09 16:56:39',0,0),(23,'affds','sadffasfdas',7,'2016-10-09 16:56:50',0,0),(24,'fsfs','sfdfsd',8,'2016-10-09 17:21:53',66,0),(25,'sdfsd','dsagdsag',8,'2016-10-09 17:22:19',0,0),(26,'fgf','dsdfsd',8,'2016-10-09 17:45:40',33,5),(28,'sfd','sfdsdf',8,'2016-10-09 18:19:28',0,0),(29,'sdf','sfdsdf',8,'2016-10-09 18:19:40',0,0),(30,'sfd','sfdsd',8,'2016-10-09 18:19:46',0,0),(31,'sfds','sffsd',8,'2016-10-09 18:19:51',10,0),(32,'sfsfd','sfdfd',8,'2016-10-09 18:20:17',100,0),(33,'sasa','sdaasd',8,'2016-10-09 18:47:57',0,0),(40,'aaa','sada',8,'2016-10-12 15:00:30',4,53),(41,'dad','sadas',8,'2016-10-12 16:16:43',33,53);
+INSERT INTO `tbl_product` VALUES (3,'ff','sd',1,'2016-10-08 17:08:56',0,0),(4,'toka','rrr',1,'2016-10-08 17:09:27',0,0),(5,'ll','fg',1,'2016-10-08 17:10:56',0,0),(6,'jj','jhg',1,'2016-10-08 17:16:49',0,0),(7,'oojj','oop',1,'2016-10-08 17:19:20',0,0),(8,'kolmas','dd',1,'2016-10-08 17:24:13',0,0),(9,'a','sfa',1,'2016-10-08 17:24:36',0,0),(10,'ööö2','kj',1,'2016-10-08 17:24:48',0,0),(11,'uusi','viesti',1,'2016-10-08 17:53:40',0,0),(12,'fdfs','fffdfd',1,'2016-10-08 22:22:19',0,0),(13,'fsfdf','sdfsdfd',1,'2016-10-08 22:22:24',0,0),(14,'fsdf','fsdfsfs',1,'2016-10-08 22:22:41',0,0),(15,'fdgfd','dfgdggf',1,'2016-10-08 22:22:46',0,0),(16,'cc','zc',1,'2016-10-09 13:15:44',0,0),(17,'hh','jhhg',1,'2016-10-09 13:39:44',0,0),(18,'hgjjgh','xfgxx',1,'2016-10-09 13:39:53',0,0),(19,'dd','xvx',1,'2016-10-09 14:03:54',0,0),(20,'asdas','dfsdfs',1,'2016-10-09 16:00:24',0,0),(21,'dsf','sfdfsdfsd',1,'2016-10-09 16:40:26',0,0),(22,'sfdaf','fdfadsfsd',7,'2016-10-09 16:56:39',0,0),(23,'affds','sadffasfdas',7,'2016-10-09 16:56:50',33,-2),(24,'fsfs','sfdfsd',8,'2016-10-09 17:21:53',66,0),(25,'sdfsd','dsagdsag',8,'2016-10-09 17:22:19',0,0),(26,'fgf','dsdfsd',8,'2016-10-09 17:45:40',33,5),(28,'sfd','sfdsdf',8,'2016-10-09 18:19:28',0,0),(29,'sdf','sfdsdf',8,'2016-10-09 18:19:40',0,0),(30,'sfd','sfdsd',8,'2016-10-09 18:19:46',0,0),(31,'sfds','sffsd',8,'2016-10-09 18:19:51',10,0),(32,'sfsfd','sfdfd',8,'2016-10-09 18:20:17',100,0),(33,'sasa','sdaasd',8,'2016-10-09 18:47:57',0,0),(40,'aaa','sada',8,'2016-10-12 15:00:30',4,53),(41,'dad','sadas',8,'2016-10-12 16:16:43',33,53);
 /*!40000 ALTER TABLE `tbl_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +180,7 @@ IN p_product_id bigint,
 IN p_user_id bigint
 )
 BEGIN
-delete from tbl_product where product_id = p_product_id and product_user_id = p_user_id;
+delete from tbl_product where product_id = p_product_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -209,9 +209,9 @@ out p_total bigint
 BEGIN
 	Set @var = concat( p_key,'%');
    
-    select count(*) into p_total from tbl_product where product_user_id = p_user_id and product_title like @var;
+    select count(*) into p_total from tbl_product where product_title like @var;
     
-    SET @t1 = CONCAT( 'select * from tbl_product where product_user_id = ', p_user_id, ' and product_title like "',@var,'" order by ',p_sortBy,' asc limit ',p_limit,' offset ',p_offset);
+    SET @t1 = CONCAT( 'select * from tbl_product where product_title like "',@var,'" order by ',p_sortBy,' asc limit ',p_limit,' offset ',p_offset);
     
     PREPARE stmt FROM @t1;
     EXECUTE stmt;
@@ -237,7 +237,7 @@ IN p_product_id bigint,
 IN p_user_id bigint
 )
 BEGIN
-select * from tbl_product where product_id = p_product_id and product_user_id = p_user_id;
+select * from tbl_product where product_id = p_product_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -264,7 +264,7 @@ IN p_count int(11)
 )
 BEGIN
 update tbl_product set product_title = p_title,product_description = p_description,product_price = p_price,product_count=p_count
-    where product_id = p_product_id and product_user_id = p_user_id;
+    where product_id = p_product_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -302,4 +302,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-12 16:46:00
+-- Dump completed on 2016-10-12 18:25:40

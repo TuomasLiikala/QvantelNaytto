@@ -14,7 +14,7 @@ app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
 # Default setting
-pageLimit = 2
+pageLimit = 10
 
 @app.route('/')
 def main():

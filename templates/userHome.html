@@ -40,7 +40,7 @@
 
 			function GetProducts(_page){
 				
-				var _offset = (_page - 1) * 2;
+				var _offset = (_page - 1) * 10;
 				var _searchData = document.getElementById("txtSearch").value;
 				var _nameChecked = document.getElementById("radioName").checked;
 				
@@ -50,7 +50,7 @@
 					data : {offset:_offset, searchData:_searchData, nameChecked:_nameChecked},
 					success: function(res){
 						
-						var itemsPerPage = 2;
+						var itemsPerPage = 10;
 						
 						var productObj = JSON.parse(res);
 						
@@ -194,22 +194,6 @@
 
 				</fieldset>
 			</form>
-			
-			<div class="row row-eq-height">
-				<div class="col-xs-12">
-					<label>
-						Sort by:
-					</label>
-					<div class="btn-group" data-toggle="buttons" onchange="GetProducts(1)">
-						<label class="btn btn-primary active"">
-							<input type="radio" id="radioName" name="optradio" checked=""> Name
-						</label>
-						<label class="btn btn-primary">
-							<input type="radio" id="radioPrice" name="optradio"> Price
-						</label>
-					</div>
-				</div>
-			</div>
 			  
 			<!-- Text input-->
 			<div class="row row-eq-height">
@@ -219,17 +203,20 @@
 			</div>
 			
 			<div class="panel-body">
-				<div class="row row-eq-height">
+				<div class="row row-eq-height" data-toggle="buttons" onchange="GetProducts(1)">
 					<div class="col-xs-4 panel" style="text-align:left;">
-						<label>Name
+						<label class="btn btn-link active">
+							<input type="radio" id="radioName" name="optradio" checked=""> Name
 						</label>
 					</div>
 					<div class="col-xs-3 panel" style="text-align:left;">
-						<label>Price (€)
+						<label class="btn btn-link active">
+							<input type="radio" id="radioPrice" name="optradio"> Price (€)
 						</label>
 					</div>
 					<div class="col-xs-3 panel" style="text-align:left;">
-						<label>Items (count)
+						<label class="btn btn-link disabled">
+							<input type="radio" id="radioCount" name="optradio" active=""> Items (count)
 						</label>
 					</div>
 				</div>
