@@ -118,14 +118,14 @@ def getProduct():
                 _searchby = 'wish_price'
             print (_searchby)
         
-            cursor.callproc('sp_GetProductByUser',(_user,_limit,_offset,_searchword,_searchby,'true',_total_records))
+            cursor.callproc('sp_Get2ProductByUser',(_user,_limit,_offset,_searchword,_searchby,'true',_total_records))
  
             products = cursor.fetchall()
              
             cursor.close()
              
             cursor = con.cursor()
-            cursor.execute('SELECT @_sp_GetProductByUser_6');
+            cursor.execute('SELECT @_sp_Get2ProductByUser_6');
              
             outParam = cursor.fetchall()
 
