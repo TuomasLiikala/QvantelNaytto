@@ -56,7 +56,7 @@ def deleteProduct():
 
             conn = mysql.connect()
             cursor = conn.cursor()
-            cursor.callproc('sp_deleteWish',(_id,_user))
+            cursor.callproc('sp_deleteProduct',(_id,_user))
             result = cursor.fetchall()
 
             if len(result) is 0:
@@ -105,7 +105,7 @@ def getProduct():
             _searchword = request.form['searchData']
             _searchstyle = request.form['nameChecked']
             _total_records = 0
-            _searcby = 'wish_title'
+            _searcby = 'product_title'
 
             con = mysql.connect()
             cursor = con.cursor()
@@ -113,9 +113,9 @@ def getProduct():
             if not _searchword:
                 _searchword = ''
             if _searchstyle == 'true':
-                _searchby = 'wish_title'
+                _searchby = 'product_title'
             else:
-                _searchby = 'wish_price'
+                _searchby = 'product_price'
             print (_searchby)
         
             cursor.callproc('sp_Get2ProductByUser',(_user,_limit,_offset,_searchword,_searchby,'true',_total_records))
