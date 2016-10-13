@@ -266,3 +266,6 @@ def signUp():
 
 if __name__ == "__main__":
     app.run(port=5002)
+	
+def test_answer():
+    assert main() != 0
