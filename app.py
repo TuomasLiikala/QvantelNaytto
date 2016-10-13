@@ -156,7 +156,7 @@ def addProduct():
             _price = request.form['inputPrice']
             _count = request.form['inputCount']
             _user = session.get('user')
-
+            
             # connect to mysql
             conn = mysql.connect()
             cursor = conn.cursor()

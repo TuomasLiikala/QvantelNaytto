@@ -16,21 +16,21 @@
 				
 				GetProducts(1);
 				$('#btnUpdate').click(function(){
-					$.ajax({
-					url : '/updateProduct',
-					data : {name:$('#editName').val(),description:$('#editDescription').val(),price:$('#editPrice').val(),count:$('#editCount').val(),id:localStorage.getItem('editId')},
-					type : 'POST',
-					success: function(res){
+						$.ajax({
+						url : '/updateProduct',
+						data : {name:$('#editName').val(),description:$('#editDescription').val(),price:$('#editPrice').val(),count:$('#editCount').val(),id:localStorage.getItem('editId')},
+						type : 'POST',
+						success: function(res){
 
-					$('#editModal').modal('hide');
-										
-						GetProducts(1);
-							
-					},
-					error: function(error){
-						console.log(error);
-					}
-				});
+							$('#editModal').modal('hide');
+											
+							GetProducts(1);
+								
+						},
+						error: function(error){
+							console.log(error);
+						}
+					});
 				});
 
 				$('document').on('click','.navigation li a',function(){
@@ -39,7 +39,6 @@
 			});
 
 			function GetProducts(_page){
-				
 				var _itemsPerPage = 25;
 				var _offset = (_page - 1) * _itemsPerPage;
 				var _searchData = document.getElementById("txtSearch").value;
@@ -49,8 +48,7 @@
 					url : '/getProduct',
 					type : 'POST',
 					data : {offset:_offset, searchData:_searchData, nameChecked:_nameChecked, itemsPerPage:_itemsPerPage},
-					success: function(res){
-							
+					success: function(res){	
 						var productObj = JSON.parse(res);
 						
 						$('#ulist').empty();
@@ -70,20 +68,19 @@
 
 						if(pageStart>5){
 							var aPrev = $('<a/>').attr({'href':'#'},{'aria-label':'Previous'})
-						.append($('<span/>').attr('aria-hidden','true').html('&laquo;'));
+								.append($('<span/>').attr('aria-hidden','true').html('&laquo;'));
 
-						$(aPrev).click(function(){
-							$('#hdnStart').val(Number(pageStart) - 5);
-							$('#hdnEnd').val(Number(pageStart) - 5 + 4);
-							GetProducts(Number(pageStart) - 5);
-						});
+							$(aPrev).click(function(){
+								$('#hdnStart').val(Number(pageStart) - 5);
+								$('#hdnEnd').val(Number(pageStart) - 5 + 4);
+								GetProducts(Number(pageStart) - 5);
+							});
 
-						var prevLink = $('<li/>').append(aPrev);
-						$('.pagination').append(prevLink);
+							var prevLink = $('<li/>').append(aPrev);
+							$('.pagination').append(prevLink);
 						}
 						
 						for(var i=Number(pageStart);i<=Number(pageEnd);i++){
-							
 							if (i > pageCount){
 								break;
 							}
@@ -118,8 +115,7 @@
 					error: function(error){
 						console.log(error);
 					}
-				});
-				
+				});		
 			}
 
 			function ConfirmDelete(elem){
@@ -155,7 +151,6 @@
 					data : {id:$(elm).attr('data-id')},
 					type : 'POST',
 					success: function(res){
-						
 						var data = JSON.parse(res);
 
 						$('#editName').val(data[0]['Name']);
@@ -191,7 +186,6 @@
 
 			<form class="form-horizontal" method="post" action="/addProduct">
 				<fieldset>
-
 				</fieldset>
 			</form>
 			  
@@ -254,37 +248,40 @@
 
 		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="editModalLabel">Update product</h4>
-				</div>
-				<div class="modal-body">
-					<form role="form">
-						<div class="form-group">
-							<label for="recipient-name" class="control-label">Name:</label>
-							<input type="text" class="form-control" id="editName">
+				<form role="form">
+				
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="editModalLabel">Update product</h4>
 						</div>
-						<div class="form-group">
-							<label for="message-text" class="control-label">Description:</label>
-							<textarea class="form-control" id="editDescription"></textarea>
+						
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Name:</label>
+								<input type="text" class="form-control" id="editName" required>
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="control-label">Description:</label>
+								<textarea class="form-control" id="editDescription" required></textarea>
+							</div>
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Price (€):</label>
+								<input type="text" class="form-control" id="editPrice" required>
+							</div>
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Count:</label>
+								<input type="text" class="form-control" id="editCount" required>
+							</div>
 						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="control-label">Price (€):</label>
-							<input type="text" class="form-control" id="editPrice">
+						
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button id="btnUpdate" type="submit" class="btn btn-primary">Update</button>
 						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="control-label">Count:</label>
-							<input type="text" class="form-control" id="editCount">
-						</div>
-					</form>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button id="btnUpdate" type="button" class="btn btn-primary">Update</button>
-				</div>
-				</div>
-			</div>
+			</form>
 		</div>
 
 		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
